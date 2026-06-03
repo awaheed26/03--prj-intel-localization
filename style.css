@@ -1,18 +1,24 @@
-/* Add your CSS here */
 /* =========================
    GLOBAL STYLES
 ========================= */
-
+html, body {
+  background-color: #131e75 !important;
+  color: #d9e6f2;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+.bi {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #00c7fd;
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #0a192f;
-  color: white;
+  background-color: #0b1c36;
   overflow-x: hidden;
 }
 
@@ -207,7 +213,6 @@ section div {
   border-color: rgba(0, 199, 253, 0.25);
 }
 
-
 .card h2 {
   font-size: 2.5rem;
   color: #00c7fd;
@@ -276,7 +281,7 @@ section div:hover::before {
 }
 section h2 {
   font-size: 2.5rem;
-  color: #00c7fd;
+  color: #001efd;
   margin-bottom: 1rem;
 }
 
@@ -416,4 +421,81 @@ footer {
   .card:active .overlay {
     transform: translateY(0);
   }
+}
+.dark-form {
+  background: linear-gradient(
+    145deg,
+    rgba(9, 65, 161, 0.95),
+    rgba(10, 25, 47, 0.95)
+  );
+  color: #d9e6f2;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 199, 253, 0.3);
+}
+.dark-form .form-control {
+  background-color: rgba(7, 88, 136, 0.76);
+  border: 1px solid rgba(0, 199, 253, 0.3);
+  color: #04315c;
+}
+
+.dark-form .form-control::placeholder {
+  color: #092f68;
+}
+.dark-form input {
+  background-color: #112240;
+  border: 1px solid rgba(0, 199, 253, 0.3);
+  color: #d9e6f2;
+}
+
+.dark-form input:focus {
+  outline: none;
+  border-color: #4177b8;
+  box-shadow: 0 0 10px rgba(0, 199, 253, 0.3);
+}
+.dark-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sustainability-box {
+  margin: 4rem 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+  background: #26b4f7d3;
+  border: 1px solid #112240;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+/* TOP BLUE LINE (LIKE TIMELINE CARDS) */
+.sustainability-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 4px;
+  background: #00c7fd;
+  transition: 0.5s ease;
+}
+
+/* ON HOVER → LINE SLIDES IN */
+.sustainability-box:hover::before {
+  left: 0;
+}
+
+/* RIBBON HEADER */
+.sustainability-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.sustainability-header h2 {
+  color: #00c7fd;
+  font-size: 2.5rem;
+  position: relative;
+  display: inline-block;
+}
+.sustainability-box:hover .sustainability-header h2::after {
+  width: 200px;
 }
