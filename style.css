@@ -1,6 +1,10 @@
 /* =========================
    GLOBAL STYLES
 ========================= */
+html[dir="rtl"] header .logo {
+  left: auto;
+  right: 0;
+}
 html, body {
   background-color: #131e75 !important;
   color: #d9e6f2;
@@ -81,69 +85,135 @@ header p {
   color: #d9e6f2;
 }
 
-/* =========================
-   TIMELINE SECTION
-========================= */
-
-section {
+.carousel-item img {
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
   display: flex;
+}
+@media (max-width: 770px) {
+  .carousel-item img {
+    height: 250px;
+  }
+
+}
+/* =========================
+   TIMELINE SECTION (Desktop: Horizontal Scroll)
+========================= */
+.timeline-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 2rem;
-  overflow-x: auto;
+  
+  /* FORCE HORIZONTAL SCROLLING ACTIVE */
+  overflow-x: scroll !important; 
   overflow-y: hidden;
+  width: 100%;
+  max-width: 100vw;
+  
   padding: 4rem 2rem;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  align-items: stretch;
-  flex-wrap: nowrap;
-}
-.img-box {
-  width: 100%;
-  height: 180px;
-  margin-bottom: 1rem;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Custom Scrollbar */
-
-section::-webkit-scrollbar {
-  height: 12px;
+/* Scrollbar styling */
+/* Force Scrollbar to Show on Desktop */
+.timeline-track::-webkit-scrollbar {
+  height: 14px;
+  display: block !important;
 }
 
-section::-webkit-scrollbar-track {
-  background: #112240;
+.timeline-track::-webkit-scrollbar-track {
+  background: #112240 !important;
   border-radius: 10px;
 }
 
-section::-webkit-scrollbar-thumb {
-  background: #00c7fd;
+.timeline-track::-webkit-scrollbar-thumb {
+  background: #00c7fd !important;
   border-radius: 10px;
+  border: 3px solid #112240; /* Adds spacing padding effect */
 }
-section div {
+
+/* Card Baseline Setup */
+.card {
+  position: relative;
+  
+  /* FORCE CARDS TO NOT SHRINK ON BIG SCREENS */
+  flex: 0 0 320px !important;
+  min-width: 320px !important; 
+  width: 320px;
+  
   scroll-snap-align: center;
+  background: linear-gradient(145deg, rgba(9, 65, 161, 0.95), rgba(10, 25, 47, 0.95));
+  border: 1px solid rgba(0, 199, 253, 0.3);
+  border-radius: 20px;
+  padding: 1.5rem;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
+
+/* Animated Top Line on Hover */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 5px;
+  background: #00c7fd;
+  transition: .5s;
+}
+.card:hover::before {
+  left: 0;
+}
+
+/* Combined Hover Interactions */
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  border-color: rgba(0, 199, 253, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 199, 253, 0.3);
+}
+.card:active {
+  transform: scale(0.98);
+}
+
+/* Base text/image inside card */
+.card h2 { font-size: 2.5rem; color: #00c7fd; margin-bottom: 0.5rem; }
+.card h3 { font-size: 1.3rem; color: #ffffff; margin-bottom: 0.5rem; }
+.card p { color: #c7d4e3; }
+
+.img-box {
+  height: 180px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ensure structural elements sit safely below overlay */
+.card h2, .card h3, .card .img-box, .card p {
+  position: relative;
+  z-index: 1;
+}
+
 /* =========================
    HOVER PULL-UP OVERLAY
 ========================= */
-
-.card {
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-}
-
-/* THIS IS THE KEY FIX */
 .overlay {
   position: absolute;
-  inset: 0;   /* replaces top/left/width/height */
+  inset: 0;
   background: rgba(10, 25, 47, 0.98);
   backdrop-filter: blur(10px);
-  transform: translateY(100%);
-  transition: transform 0.5s ease;
-  z-index: 10; /* IMPORTANT */
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,80 +221,17 @@ section div {
   width: 100%;
   height: 100%;
   transform: translate3d(0, 100%, 0);
+  transition: transform 0.5s ease;
   will-change: transform;
 }
-
-/* hover trigger */
+.overlay-content {
+  overflow-y: hidden;
+}
 .card:hover .overlay {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
-/* make base content stay UNDER overlay */
-.card h2,
-.card h3,
-.card .img-box,
-.card p {
-  position: relative;
-  z-index: 1;
-}
-
-.card {
-  width: 320px;
-  flex: 0 0 320px;
-  width: 320px;
-  scroll-snap-align: center;
-  background: linear-gradient(
-    145deg,
-    rgba(9, 65, 161, 0.95),
-    rgba(10, 25, 47, 0.95)
-  );
-
-  border: 1px solid rgba(0, 199, 253, 0.3);
-  border-radius: 20px;
-  padding: 1.5rem;
-
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-/* Hover lift effect */
-.card:hover {
-  transform: translateY(-12px) scale(1.03);
-  border-color: #101a1d;
-  box-shadow: 0 15px 35px rgba(0, 199, 253, 0.3);
-}
-
-.img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block; 
-            
- 
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
-  border-color: rgba(0, 199, 253, 0.25);
-}
-
-.card h2 {
-  font-size: 2.5rem;
-  color: #00c7fd;
-  margin-bottom: 0.5rem;
-}
-
-.card h3 {
-  font-size: 1.3rem;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-}
-
+/* Details panel expansion */
 .details {
   color: #c7d4e3;
   line-height: 1.6;
@@ -233,159 +240,52 @@ section div {
   overflow: hidden;
   transition: all 0.4s ease;
 }
-
-/* Reveal on hover */
 .card:hover .details {
   opacity: 1;
   max-height: 200px;
   margin-top: 1rem;
 }
 
-.card:active {
-  transform: scale(0.98);
-}
-.section div {
-  min-width: 320px;
-  max-width: 320px;
-  background: linear-gradient(
-    145deg,
-    rgba(17, 34, 64, 0.95),
-    rgba(10, 25, 47, 0.95)
-  );
-  border: 1px solid rgba(0, 199, 253, 0.3);
-  border-radius: 20px;
-  padding: 2rem;
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  position: relative;
-  transition: all 0.4s ease;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-/* Animated Top Border */
-
-section div::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 5px;
-  background: #00c7fd;
-  transition: 0.5s;
-}
-
-section div:hover::before {
-  left: 0;
-}
-section h2 {
-  font-size: 2.5rem;
-  color: #001efd;
-  margin-bottom: 1rem;
-}
-
-section h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  color: #ffffff;
-}
-
-section p {
-  color: #c7d4e3;
-  line-height: 1.7;
-  opacity: 0.85;
-  transition: 0.3s ease;
-}
-
-section div:hover p {
-  opacity: 1;
-  transform: scale(1.01);
-}
-
-body > p {
-  text-align: center;
-  padding-bottom: 2rem;
-  margin-top: 1.5rem;
-  color: #8fbcd4;
-  font-size: 1rem;
-  letter-spacing: 1px;
-}
-
+/* =========================
+   RESPONSIVE DESIGN (Small Screens: Vertical Stack)
+========================= */
 @media (max-width: 900px) {
-  header h1 {
-    font-size: 3rem;
-  }
 
-  header p {
-    font-size: 1rem;
-  }
-
-  section {
+  /* Switch timeline from horizontal scroll to vertical stack */
+  .timeline-track {
     flex-direction: column;
-    overflow-x: visible;
     align-items: center;
+    overflow-x: hidden;      /* Prevents horizontal spilling */
+    overflow-y: visible;     /* Allows normal vertical page scrolling */
+    scroll-snap-type: none;  /* Disable horizontal snap */
+    padding: 2rem 1rem;      /* Reduced padding to give cards more breathing room */
   }
 
-  section div {
-    width: 90%;
-    max-width: 500px;
-  }
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 2rem 1rem;
-  }
-
-  header img {
-    width: 140px;
-  }
-
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  section {
-    padding: 2rem 1rem;
-  }
-
-  section div {
-    padding: 1.5rem;
-  }
-
-  section h2 {
-    font-size: 2rem;
-  }
-
-  section h3 {
-    font-size: 1.2rem;
-  }
-}
-footer {
-  text-align: center;
-  padding: 2rem;
-  background-color: #06101f;
-  color: #8fbcd4;
-  font-size: 0.9rem;
-  border-top: 1px solid rgba(0, 199, 253, 0.2);
-}
-@media (max-width: 900px) {
-
-  /* MAKE CARDS FIT SCREEN */
+  /* FULLY RESPONSIVE CARD FIX */
+  .timeline-track .card, 
   .card {
-    width: 85vw;
-    flex: 0 0 auto;
+    flex: 1 1 auto !important; 
+    width: 100% !important;   /* Take up full available width of parent... */
+    max-width: 450px;         /* ...but don't get larger than 450px on tablets */
+    min-width: 0 !important;  /* CRITICAL: Overrides the desktop min-width instruction */
+    box-sizing: border-box;   /* Includes padding inside the width measurement */
   }
 
-  /* FIX IMAGE HEIGHT */
+  /* Image box scale-down */
   .img-box {
     height: 160px;
+    width: 100%;
+  }
+  
+  .img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  /* MAKE OVERLAY WORK PROPERLY */
+  /* Mobile Overlay adaptations */
   .overlay {
-    padding: 1rem;
+    padding: 1.2rem;
     align-items: flex-start;
   }
 
@@ -396,32 +296,73 @@ footer {
   }
 }
 
+/* Extra micro-screen adjustment (Phones under 360px wide) */
+@media (max-width: 360px) {
+  .timeline-track {
+    padding: 1.5rem 0.5rem; /* Ultra-tight padding for small screens */
+  }
+  .card h2 {
+    font-size: 2rem;       /* Scale down heading font sizes so they fit */
+  }
+  .card h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sustainability-box {
+    margin: 2rem 1rem;
+    padding: 1rem;
+    width: calc(100% - 2rem);
+  }
+  .sustainability-box .col-md-4 {
+    width: 100%;
+  }
+  .dark-form {
+    width: 100%;
+  }
+}
+
 @media (max-width: 600px) {
+  header h1 { font-size: 2.2rem; }
+  header p { font-size: 1rem; }
+  .card { width: 95vw; }
+}
 
-  /* FULL MOBILE CONTROL */
-  section {
-    flex-direction: column;
-    overflow-x: hidden;
-    align-items: center;
-  }
+footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #06101f;
+  color: #8fbcd4;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(0, 199, 253, 0.2);
+}
 
-  .card {
-    width: 95%;
-  }
+/* =========================
+   TIMELINE INSTRUCTION HINT
+========================= */
+.timeline-hint {
+  text-align: center;
+  color: #00c7fd;          /* Vibrant light blue matching your theme UI */
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+  text-shadow: 0 0 8px rgba(0, 199, 253, 0.3); /* Soft glow for better contrast */
+}
 
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  header p {
-    font-size: 1rem;
+/* Optional: Slight adjustment for smaller mobile screens */
+@media (max-width: 600px) {
+  .timeline-hint {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
   }
 }
-@media (hover: none) {
-  .card:active .overlay {
-    transform: translateY(0);
-  }
-}
+
+
+
 .dark-form {
   background: linear-gradient(
     145deg,
@@ -453,21 +394,39 @@ footer {
   box-shadow: 0 0 10px rgba(0, 199, 253, 0.3);
 }
 .dark-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sustainability-box {
-  margin: 4rem 2rem;
-  padding: 2rem;
-  border-radius: 20px;
-  background: #26b4f7d3;
-  border: 1px solid #112240;
-  transition: all 0.4s ease;
-  overflow: hidden;
+  padding: 3rem 1rem;
 }
 
-/* TOP BLUE LINE (LIKE TIMELINE CARDS) */
+.dark-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dark-form {
+  max-width: 650px;
+  margin: auto;
+}
+
+.sustainability-box {
+  position: relative;
+  margin: clamp(1rem, 3vw, 4rem) auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 20px;
+  background: linear-gradient(
+    145deg,
+    rgba(9, 65, 161, 0.95),
+    rgba(10, 25, 47, 0.95)
+  );
+  border: 20px solid rgba(0,199,253,.3);
+  overflow: hidden;
+  max-width: 1200px;
+  width: calc(100% - 4rem); 
+}
+.sustainability-box * {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
 .sustainability-box::before {
   content: "";
   position: absolute;
@@ -476,26 +435,47 @@ footer {
   width: 100%;
   height: 4px;
   background: #00c7fd;
-  transition: 0.5s ease;
+  transition: .5s;
 }
-
-/* ON HOVER → LINE SLIDES IN */
+.sustainability-box p,
+.sustainability-box h2,
+.sustainability-box h3 {
+  max-width: 100%;
+}
 .sustainability-box:hover::before {
   left: 0;
 }
 
-/* RIBBON HEADER */
 .sustainability-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .sustainability-header h2 {
   color: #00c7fd;
-  font-size: 2.5rem;
-  position: relative;
-  display: inline-block;
 }
-.sustainability-box:hover .sustainability-header h2::after {
-  width: 200px;
+
+.sustainability-box .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0;
+  margin-right: 0;
+}
+.sustainability-box p {
+  line-height: 1.6;
+  white-space: normal;
+}
+
+.sustainability-box .col-md-4 {
+  display: flex;
+}
+
+.sustainability-box .dark-form {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .sustainability-box .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
